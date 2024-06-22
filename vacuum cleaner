@@ -1,0 +1,49 @@
+import random
+
+# Define the environment as a 2x2 grid
+environment = [
+    [random.choice(['clean', 'dirty']), random.choice(['clean', 'dirty'])],
+    [random.choice(['clean', 'dirty']), random.choice(['clean', 'dirty'])]
+]
+
+# Define the possible actions
+actions = ['up', 'down', 'left', 'right', 'suck']
+
+# Define the initial position of the vacuum cleaner
+vacuum_position = [0, 0]
+
+# Function to display the environment
+def display_environment(env):
+    for row in env:
+        print(row)
+    print()
+
+# Function to move the vacuum cleaner
+def move_vacuum(position, action):
+    if action == 'up' and position[0] > 0:
+        position[0] -= 1
+    elif action == 'down' and position[0] < 1:
+        position[0] += 1
+    elif action == 'left' and position[1] > 0:
+        position[1] -= 1
+    elif action == 'right' and position[1] < 1:
+        position[1] += 1
+    return position
+
+# Function to simulate the vacuum cleaner agent
+def vacuum_agent(env, position):
+    print("Initial Environment:")
+    display_environment(env)
+    while 'dirty' in env[0] or 'dirty' in env[1]:
+        if env[position[0]][position[1]] == 'dirty':
+            env[position[0]][position[1]] = 'clean'
+            print(f"Cleaning position {position}")
+        else:
+            action = random.choice(actions[:-1])  # Choose a random move action
+            position = move_vacuum(position, action)
+            print(f"Moving {action} to position {position}")
+        display_environment(env)
+    print("All areas are clean!")
+
+# Run the vacuum cleaner agent
+vacuum_agent(environment, vacuum_position)
